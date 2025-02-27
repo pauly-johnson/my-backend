@@ -23,7 +23,7 @@ app.get("/api", (req, res) => {
 });
 
 // Auth Routes
-app.use("/api/auth", authRoutes);
+app.use("/api/user/auth", authRoutes);
 
 // Example Protected Route
 app.get("/api/protected", authMiddleware, (req, res) => {
