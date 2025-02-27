@@ -28,11 +28,23 @@ router.post("/register", async (req, res) => {
 // Login user and return JWT token
 router.post("/login", async (req, res) => {
   try {
+
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
+    // const user = await User.findOne({ username });
+    // if (!user || !(await bcrypt.compare(password, user.password))) {
+    //   return res.status(401).json({ error: "Invalid credentials" });
+    // }
+    const user = await User.findOne({ username: req.body.username });
+        if (!user) {
+            return res.status(400).json({ error: "User not found" });
+        }
+
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ error: "Invalid credentials" });
+        }
+
+
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
