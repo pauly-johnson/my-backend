@@ -27,7 +27,7 @@ app.use("/api/user/auth", authRoutes);
 
 // Example Protected Route
 app.get("/api/protected", authMiddleware, (req, res) => {
-  res.json({ message: "This is a protected route", userId: req.user.userId });
+  res.json({ message: "This is a protected route", userId: req.user.userId, userName: req.user.username });
 });
 
 const PORT = process.env.PORT || 10000;
